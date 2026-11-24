@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hadia | Birthday Surprise</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+ background:#160018;
+ color:white;
+ font-family:Poppins,sans-serif;
+ overflow-x:hidden;
+}
+.page{
+ min-height:100vh;
+ display:none;
+ position:relative;
+ overflow:hidden;
+ padding:35px 18px;
+ text-align:center;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ background:
+ radial-gradient(ellipse at top,#6b164d 0%,transparent 60%),
+ linear-gradient(145deg,#160018,#390b36,#150019);
+}
+.page.active{
+ display:flex;
+ animation:pageIn 1s ease both;
+}
+@keyframes pageIn{
+ from{opacity:0;transform:scale(.94)}
+ to{opacity:1;transform:scale(1)}
+}
+h1{
+ font-family:'Playfair Display',serif;
+ font-style:italic;
+ font-size:clamp(35px,8vw,65px);
+ color:#ffe1a6;
+ text-shadow:0 0 12px #ff64a9,0 0 35px #ff248e;
+ margin:20px 0;
+}
+h2{
+ font-family:'Great Vibes',cursive;
+ color:#ffb5d7;
+ font-size:clamp(35px,8vw,55px);
+ margin:15px;
+}
+p{
+ font-size:16px;
+ line-height:1.9;
+ color:#ffe4f0;
+ margin:12px;
+}
+.gold{
+ color:#ffd78c;
+}
+.rose{
+ font-size:40px;
+ filter:drop-shadow(0 0 12px pink);
+ animation:roseFloat 3s ease-in-out infinite;
+}
+@keyframes roseFloat{
+ 50%{transform:translateY(-14px) rotate(8deg)}
+}
+.btn{
+ background:linear-gradient(110deg,#b77a29,#ffda9a,#c77a32);
+ color:#42122e;
+ border:1px solid #fff0c5;
+ padding:15px 30px;
+ border-radius:50px;
+ font-size:15px;
+ font-weight:bold;
+ margin:20px;
+ cursor:pointer;
+ box-shadow:0 0 20px #ffb65c88;
+ transition:.3s;
+}
+.btn:active{transform:scale(.92)}
+.btn:hover{box-shadow:0 0 35px #ffd78c;transform:scale(1.05)}
+.glass{
+ background:#ffffff12;
+ border:1px solid #ffd9ed55;
+ backdrop-filter:blur(12px);
+ border-radius:25px;
+ padding:25px;
+ width:min(92%,550px);
+ box-shadow:0 0 35px #ff4e9a22;
+}
+.spark{
+ position:absolute;
+ width:4px;height:4px;
+ background:#fff4c7;
+ border-radius:50%;
+ box-shadow:0 0 12px 3px #ff9fc9;
+ animation:twinkle 2s infinite alternate;
+ pointer-events:none;
+}
+@keyframes twinkle{
+ from{opacity:.2;transform:scale(.5)}
+ to{opacity:1;transform:scale(2)}
+}
+.heart{
+ position:absolute;
+ color:#ff70b2;
+ animation:heartRise 5s linear forwards;
+ pointer-events:none;
+}
+@keyframes heartRise{
+ from{transform:translateY(0) scale(.5);opacity:0}
+ 20%{opacity:1}
+ to{transform:translateY(-110vh) scale(1.5);opacity:0}
+}
+
+/* Balloons */
+.balloon-area{
+ max-width:450px;
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+}
+.balloon{
+ width:65px;height:85px;
+ margin:13px;
+ border-radius:50% 50% 45% 45%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:22px;
+ cursor:pointer;
+ position:relative;
+ box-shadow:inset -9px -8px 15px #0004,0 0 20px #ffffff25;
+ animation:balloonFly 2s ease-in-out infinite alternate;
+}
+.balloon:after{
+ content:"";
+ position:absolute;
+ width:1px;height:35px;
+ background:#ffffffaa;
+ top:83px;
+}
+@keyframes balloonFly{
+ from{transform:translateY(5px) rotate(-5deg)}
+ to{transform:translateY(-15px) rotate(5deg)}
+}
+.balloon.popped{
+ animation:pop .35s forwards;
+ pointer-events:none;
+}
+@keyframes pop{
+ 0%{transform:scale(1)}
+ 60%{transform:scale(1.5)}
+ 100%{transform:scale(0);opacity:0}
+}
+.poptext{
+ color:#ffd78c;
+ font-size:14px;
+}
+
+/* Fireworks */
+.firework{
+ position:absolute;
+ border-radius:50%;
+ width:5px;height:5px;
+ pointer-events:none;
+ box-shadow:0 0 12px 4px var(--c);
+ animation:burst 1.3s ease-out forwards;
+}
+@keyframes burst{
+ 0%{transform:scale(.1);opacity:1}
+ 100%{transform:scale(9);opacity:0}
+}
+.falling{
+ position:fixed;
+ top:-50px;
+ z-index:10;
+ pointer-events:none;
+ animation:fall 5s linear forwards;
+}
+@keyframes fall{
+ to{transform:translateY(115vh) rotate(600deg);opacity:0}
+}
+
+/* Cake */
+.cake{
+ font-size:100px;
+ margin:15px;
+ filter:drop-shadow(0 0 20px #ff83bd);
+}
+.candle-area{
+ display:flex;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:13px;
+ max-width:400px;
+}
+.candle{
+ font-size:29px;
+ cursor:pointer;
+ transition:.3s;
+}
+.candle.off{
+ opacity:.5;
+ transform:translateY(10px);
+ filter:grayscale(1);
+}
+
+/* Love scene */
+.love-scene{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ flex-wrap:wrap;
+ gap:10px;
+ font-size:70px;
+}
+.person{
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+}
+.person span{
+ font-size:17px;
+ color:#ffd78c;
+ font-weight:bold;
+}
+.flower{
+ font-size:40px;
+ animation:give 1.5s infinite alternate;
+}
+@keyframes give{
+ to{transform:translateX(12px) rotate(15deg)}
+}
+.final-title{
+ font-family:'Great Vibes',cursive;
+ font-size:clamp(50px,11vw,85px);
+ color:#ffdfaa;
+ text-shadow:0 0 30px #ff4d9f;
+}
+input{
+ padding:14px;
+ border-radius:12px;
+ border:2px solid #ffc3df;
+ background:#fff;
+ font-size:17px;
+ color:#40102d;
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<section class="page active" id="p1">
+<div class="rose">🌹 🌸 🌹</div>
+<h2>A Special Day For Someone Special</h2>
+<h1>Happy Birthday<br>My Best Friend Hadia</h1>
+<div class="glass">
+<p>Today is not an ordinary day. Today is the day of a beautiful soul. ❤️</p>
+<p class="gold">A little surprise is waiting for you...</p>
+</div>
+<div class="rose">🌷 💗 🌷</div>
+<button class="btn" onclick="go(2)">Open Your Surprise ✨</button>
+</section>
+
+<!-- PAGE 2 -->
+<section class="page" id="p2">
+<h1>Pop The Balloons!</h1>
+<p>Ten beautiful balloons are waiting for you.</p>
+<p class="gold">Touch every balloon and pop it! 🎈</p>
+<div class="balloon-area" id="balloons"></div>
+<p id="bCount">10 Balloons Remaining</p>
+<button class="btn" id="bNext" hidden onclick="go(3)">Please Proceed 💖</button>
+</section>
+
+<!-- PAGE 3 -->
+<section class="page" id="p3">
+<div class="rose">🌹 🌸 🌹</div>
+<h1>Wonderful! 💕</h1>
+<div class="glass">
+<p>If you have popped all the balloons, kindly proceed to the next surprise!</p>
+</div>
+<button class="btn" onclick="go(4)">Please Proceed ✨</button>
+</section>
+
+<!-- PAGE 4 -->
+<section class="page" id="p4">
+<h1>A Little Birthday Question</h1>
+<div class="glass">
+<p>When is your date of birth?</p>
+<input type="date" id="dob">
+<p id="dateMsg"></p>
+<button class="btn" onclick="checkDate()">Submit ❤️</button>
+</div>
+</section>
+
+<!-- PAGE 5 -->
+<section class="page" id="p5">
+<div class="rose">🌹 💗 🌹</div>
+<h1>Thankfully, You Remembered Your Birthday!</h1>
+<p>You made it! Now let the celebration begin.</p>
+<button class="btn" onclick="go(6)">Please Proceed 💖</button>
+</section>
+
+<!-- PAGE 6 -->
+<section class="page" id="p6">
+<h1>Let The Celebration Begin!</h1>
+<h2>It's Your Special Day!</h2>
+<p>May your life always shine brighter than the stars.</p>
+<div style="font-size:65px">🎆 🎇 🎉 🎊</div>
+<button class="btn" onclick="go(7)">Please Proceed 🌹</button>
+</section>
+
+<!-- PAGE 7 -->
+<section class="page" id="p7">
+<div class="rose">🌹 🌸 🌹</div>
+<h2>My Favourite and Best Friend Hadia</h2>
+<h1>Happy Birthday To You!</h1>
+<h2>Always Be Happy ❤️</h2>
+<div class="glass">
+<p>You deserve all the happiness, love and beautiful moments in this world.</p>
+</div>
+<button class="btn" onclick="go(8)">Please Proceed 💕</button>
+</section>
+
+<!-- PAGE 8 -->
+<section class="page" id="p8">
+<h1>Your Birthday Cake! 🎂</h1>
+<p>Touch each of the ten candles to blow it out!</p>
+<div class="cake">🎂</div>
+<div class="candle-area" id="candles"></div>
+<p id="cCount">10 Candles Still Burning</p>
+<button class="btn" id="cNext" hidden onclick="go(9)">Please Proceed ❤️</button>
+</section>
+
+<!-- PAGE 9 -->
+<section class="page" id="p9">
+<div class="rose">🎂 🌹 🎂</div>
+<h1>Did You Enjoy The Cake?</h1>
+<div class="glass">
+<p>If you have enjoyed the cake, kindly listen to something from me!</p>
+</div>
+<button class="btn" onclick="go(10)">Please Proceed 💗</button>
+</section>
+
+<!-- PAGE 10 -->
+<section class="page" id="p10">
+<h1>Special Prayers For You</h1>
+<div class="glass">
+<p>May Allah bless you with endless happiness.</p>
+<p>May all your dreams come true.</p>
+<p>May your smile never fade away.</p>
+<p>May your life be filled with love, peace and success.</p>
+<p>May Allah protect you from every difficulty.</p>
+<p>May every coming year be more beautiful than the last.</p>
+<p class="gold">Ameen! ❤️</p>
+</div>
+<button class="btn" onclick="go(11)">Please Proceed 🌹</button>
+</section>
+
+<!-- PAGE 11 -->
+<section class="page" id="p11">
+<h1>A Special Moment ❤️</h1>
+<div class="glass">
+<div class="love-scene">
+<div class="person">
+<div>🧎🏻‍♂️</div>
+<span>Me</span>
+</div>
+<div class="flower">🌹</div>
+<div class="person">
+<div>👩🏻</div>
+<span>Hadia</span>
+</div>
+</div>
+<h2>A Flower For You</h2>
+<p>A little rose for a very special friend.</p>
+<p class="gold">You deserve beautiful moments and endless smiles.</p>
+</div>
+<button class="btn" onclick="go(12)">Please Proceed 💖</button>
+</section>
+
+<!-- PAGE 12 -->
+<section class="page" id="p12">
+<div class="rose">🌹 🎂 🌹</div>
+<div class="final-title">Happy Birthday</div>
+<h1>My Friend Hadia!</h1>
+<h2>Thank You So Much ❤️</h2>
+<div class="glass">
+<p>Keep Smiling. Keep Shining.</p>
+<p>May your beautiful journey always be filled with happiness!</p>
+</div>
+<div style="font-size:45px">💖 🎉 🎆 🌹</div>
+</section>
+
+<script>
+let current=1;
+
+function go(n){
+ document.getElementById('p'+current).classList.remove('active');
+ current=n;
+ document.getElementById('p'+current).classList.add('active');
+ window.scrollTo(0,0);
+ if(n===6) celebration();
+ if(n===12) finalShow();
+}
+
+// Sparkles
+function sparkles(){
+ const page=document.querySelectorAll('.page');
+ page.forEach(p=>{
+  for(let i=0;i<18;i++){
+   let s=document.createElement('i');
+   s.className='spark';
+   s.style.left=Math.random()*100+'%';
+   s.style.top=Math.random()*100+'%';
+   s.style.animationDelay=Math.random()*2+'s';
+   p.appendChild(s);
+  }
+ });
+}
+sparkles();
+
+// Floating hearts
+setInterval(()=>{
+ let h=document.createElement('div');
+ h.className='heart';
+ h.innerHTML=['♥','💗','✨'][Math.floor(Math.random()*3)];
+ h.style.left=Math.random()*100+'vw';
+ h.style.bottom='-30px';
+ h.style.fontSize=(15+Math.random()*22)+'px';
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),5000);
+},700);
+
+// Balloons
+let popped=0;
+let colors=['#ff3688','#ffbb45','#a45cff','#27c8e8',
+'#ff6b6b','#55d69e','#ff91c7','#7b8dff',
+'#ffbd69','#e76bff'];
+
+for(let i=0;i<10;i++){
+ let b=document.createElement('div');
+ b.className='balloon';
+ b.style.background=colors[i];
+ b.innerHTML='🎈';
+ b.style.animationDelay=(i*.15)+'s';
+ b.onclick=()=>{
+  if(b.classList.contains('popped'))return;
+  b.classList.add('popped');
+  popped++;
+  document.getElementById('bCount').innerText=
+  (10-popped)+' Balloons Remaining';
+  if(popped===10){
+   document.getElementById('bNext').hidden=false;
+  }
+ };
+ document.getElementById('balloons').appendChild(b);
+}
+
+// Date verification
+function checkDate(){
+ let d=document.getElementById('dob').value;
+ let msg=document.getElementById('dateMsg');
+ if(d==='2007-11-28'){
+  msg.innerText='Correct! Happy Birthday! ❤️';
+  setTimeout(()=>go(5),600);
+ }else{
+  msg.innerText='Oops! Please enter the correct date. 💗';
+ }
+}
+
+// Fireworks
+function burst(x,y){
+ const page=document.getElementById('p6');
+ let colors=['#ffdc82','#ff66bb','#80eaff','#fff'];
+ for(let i=0;i<24;i++){
+  let f=document.createElement('i');
+  f.className='firework';
+  f.style.left=x+'%';
+  f.style.top=y+'%';
+  f.style.setProperty('--c',colors[i%4]);
+  let a=Math.PI*2*i/24;
+  f.animate([
+   {transform:'translate(0,0) scale(1)',opacity:1},
+   {transform:`translate(${Math.cos(a)*100}px,${Math.sin(a)*100}px) scale(.2)`,opacity:0}
+  ],{duration:1300,easing:'ease-out'});
+  page.appendChild(f);
+  setTimeout(()=>f.remove(),1400);
+ }
+}
+function celebration(){
+ let count=0;
+ let timer=setInterval(()=>{
+  burst(15+Math.random()*70,10+Math.random()*55);
+  if(++count>18)clearInterval(timer);
+ },350);
+ for(let i=0;i<45;i++){
+  setTimeout(()=>{
+   let f=document.createElement('div');
+   f.className='falling';
+   f.innerHTML=['🎈','🎊','✨','🌸','🎉'][i%5];
+   f.style.left=Math.random()*100+'vw';
+   f.style.fontSize=(20+Math.random()*25)+'px';
+   document.body.appendChild(f);
+   setTimeout(()=>f.remove(),5000);
+  },i*130);
+ }
+}
+
+// Ten candles
+let blown=0;
+for(let i=0;i<10;i++){
+ let c=document.createElement('span');
+ c.className='candle';
+ c.innerText='🕯️';
+ c.onclick=()=>{
+  if(c.classList.contains('off'))return;
+  c.classList.add('off');
+  c.innerText='💨';
+  blown++;
+  document.getElementById('cCount').innerText=
+  (10-blown)+' Candles Still Burning';
+  if(blown===10){
+   document.getElementById('cNext').hidden=false;
+  }
+ };
+ document.getElementById('candles').appendChild(c);
+}
+
+// Final celebration
+function finalShow(){
+ for(let i=0;i<60;i++){
+  setTimeout(()=>{
+   let f=document.createElement('div');
+   f.className='falling';
+   f.innerHTML=['🌹','💖','🎈','🎉','✨'][i%5];
+   f.style.left=Math.random()*100+'vw';
+   f.style.fontSize='28px';
+   document.body.appendChild(f);
+   setTimeout(()=>f.remove(),5000);
+  },i*100);
+ }
+}
+</script>
+</body>
+</html>
